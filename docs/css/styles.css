@@ -1,6 +1,7 @@
 /* CSS Variables */
 :root {
     --header-height: 60px;
+    --footer-height: 60px;
     --sidebar-width: 280px;
     --transition-speed: 0.3s;
 }
@@ -8,8 +9,9 @@
 /* Base Layout */
 body {
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
 /* Header Styles */
@@ -27,13 +29,13 @@ header {
 /* Sidebar Styles */
 #sidebar {
     width: var(--sidebar-width);
-    transition: margin var(--transition-speed) ease-in-out;
     position: fixed;
     top: var(--header-height);
-    bottom: 0;
+    bottom: var(--footer-height);
     overflow-y: auto;
     background-color: var(--bs-secondary-bg);
     z-index: 1020;
+    transition: margin var(--transition-speed) ease-in-out;
 }
 
 @media (max-width: 768px) {
@@ -47,16 +49,22 @@ header {
 
 /* Main Content Area */
 main {
-    margin-top: var(--header-height);
-    margin-left: var(--sidebar-width);
-    flex: 1;
+    position: fixed;
+    top: var(--header-height);
+    right: 0;
+    bottom: var(--footer-height);
+    left: var(--sidebar-width);
+    overflow-y: auto;
     background-color: var(--bs-body-bg);
-    min-height: calc(100vh - var(--header-height));
+}
+
+main .container {
+    padding: 2rem 1rem;
 }
 
 @media (max-width: 768px) {
     main {
-        margin-left: 0;
+        left: 0;
     }
 }
 
@@ -179,6 +187,25 @@ main {
     visibility: visible;
 }
 
+/* Footer Styling */
+footer {
+    height: var(--footer-height);
+    background-color: var(--bs-tertiary-bg);
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    z-index: 1010;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid var(--bs-border-color);
+}
+
+footer a {
+    text-decoration: none;
+    margin: 0 0.5rem;
+}
+
 /* Theme Transition Effects */
 * {
     transition: background-color var(--transition-speed) ease-in-out,
@@ -190,19 +217,6 @@ main {
 /* Disable transitions temporarily */
 .no-transition * {
     transition: none !important;
-}
-
-/* Footer Styling */
-footer {
-    background-color: var(--bs-tertiary-bg);
-    padding: 1rem 0;
-    position: relative;
-    z-index: 1010;
-}
-
-footer a {
-    text-decoration: none;
-    margin: 0 0.5rem;
 }
 
 /* Scrollbar Styling */
@@ -224,10 +238,10 @@ footer a {
     background: var(--bs-primary);
 }
 
-/* Toast Notification for Theme Change */
+/* Toast Notification */
 .theme-toast {
     position: fixed;
-    bottom: 1rem;
+    bottom: calc(var(--footer-height) + 1rem);
     right: 1rem;
     z-index: 1050;
     opacity: 0;
@@ -248,4 +262,3 @@ footer a {
 .user-select-none {
     user-select: none;
 }
-
