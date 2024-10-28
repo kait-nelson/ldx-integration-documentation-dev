@@ -1,252 +1,251 @@
-<style>
-    /* CSS Variables */
-    :root {
-        --header-height: 60px;
-        --sidebar-width: 280px;
-        --transition-speed: 0.3s;
-    }
+/* CSS Variables */
+:root {
+    --header-height: 60px;
+    --sidebar-width: 280px;
+    --transition-speed: 0.3s;
+}
 
-    /* Base Layout */
-    body {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-    }
+/* Base Layout */
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
 
-    /* Header Styles */
-    header {
-        height: var(--header-height);
-        background-color: var(--bs-tertiary-bg);
-        backdrop-filter: blur(10px);
-        position: fixed;
-        top: 0;
-        right: 0;
-        left: 0;
-        z-index: 1030;
-    }
+/* Header Styles */
+header {
+    height: var(--header-height);
+    background-color: var(--bs-tertiary-bg);
+    backdrop-filter: blur(10px);
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 1030;
+}
 
-    /* Sidebar Styles */
+/* Sidebar Styles */
+#sidebar {
+    width: var(--sidebar-width);
+    transition: margin var(--transition-speed) ease-in-out;
+    position: fixed;
+    top: var(--header-height);
+    bottom: 0;
+    overflow-y: auto;
+    background-color: var(--bs-secondary-bg);
+    z-index: 1020;
+}
+
+@media (max-width: 768px) {
     #sidebar {
-        width: var(--sidebar-width);
-        transition: margin var(--transition-speed) ease-in-out;
-        position: fixed;
-        top: var(--header-height);
-        bottom: 0;
-        overflow-y: auto;
-        background-color: var(--bs-secondary-bg);
-        z-index: 1020;
+        margin-left: calc(-1 * var(--sidebar-width));
     }
-
-    @media (max-width: 768px) {
-        #sidebar {
-            margin-left: calc(-1 * var(--sidebar-width));
-        }
-        #sidebar.active {
-            margin-left: 0;
-        }
+    #sidebar.active {
+        margin-left: 0;
     }
+}
 
-    /* Main Content Area */
+/* Main Content Area */
+main {
+    margin-top: var(--header-height);
+    margin-left: var(--sidebar-width);
+    flex: 1;
+    background-color: var(--bs-body-bg);
+    min-height: calc(100vh - var(--header-height));
+}
+
+@media (max-width: 768px) {
     main {
-        margin-top: var(--header-height);
-        margin-left: var(--sidebar-width);
-        flex: 1;
-        background-color: var(--bs-body-bg);
-        min-height: calc(100vh - var(--header-height));
+        margin-left: 0;
     }
+}
 
-    @media (max-width: 768px) {
-        main {
-            margin-left: 0;
-        }
-    }
+/* Navigation Links */
+.nav-link {
+    padding: 0.5rem 1rem;
+    color: var(--bs-body-color);
+    border-radius: 0.375rem;
+    margin: 0.25rem 0.5rem;
+    transition: all var(--transition-speed) ease-in-out;
+}
 
-    /* Navigation Links */
-    .nav-link {
-        padding: 0.5rem 1rem;
-        color: var(--bs-body-color);
-        border-radius: 0.375rem;
-        margin: 0.25rem 0.5rem;
-        transition: all var(--transition-speed) ease-in-out;
-    }
+.nav-link:hover {
+    background-color: var(--bs-tertiary-bg);
+}
 
-    .nav-link:hover {
-        background-color: var(--bs-tertiary-bg);
-    }
+.nav-link.active {
+    background-color: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary);
+}
 
-    .nav-link.active {
-        background-color: var(--bs-primary-bg-subtle);
-        color: var(--bs-primary);
-    }
+/* Sidebar Headings */
+.sidebar-heading {
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    padding: 0.5rem 1.5rem;
+}
 
-    /* Sidebar Headings */
-    .sidebar-heading {
-        font-size: 0.75rem;
-        letter-spacing: 0.05em;
-        padding: 0.5rem 1.5rem;
-    }
+/* Code Block Styling */
+.code-block {
+    position: relative;
+    margin: 1rem 0;
+}
 
-    /* Code Block Styling */
-    .code-block {
-        position: relative;
-        margin: 1rem 0;
-    }
+.code-block pre {
+    margin-bottom: 0;
+    max-height: 500px;
+    overflow-y: auto;
+    background-color: var(--bs-tertiary-bg);
+}
 
-    .code-block pre {
-        margin-bottom: 0;
-        max-height: 500px;
-        overflow-y: auto;
-        background-color: var(--bs-tertiary-bg);
-    }
+.code-block pre code {
+    padding: 1rem;
+    font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+    font-size: 0.875rem;
+}
 
-    .code-block pre code {
-        padding: 1rem;
-        font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
-        font-size: 0.875rem;
-    }
+.copy-button {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity var(--transition-speed) ease-in-out;
+}
 
-    .copy-button {
-        position: absolute;
-        top: 0.5rem;
-        right: 0.5rem;
-        z-index: 1;
-        opacity: 0;
-        transition: opacity var(--transition-speed) ease-in-out;
-    }
+.code-block:hover .copy-button {
+    opacity: 1;
+}
 
-    .code-block:hover .copy-button {
-        opacity: 1;
-    }
+.copy-button:focus {
+    box-shadow: none;
+    opacity: 1;
+}
 
-    .copy-button:focus {
-        box-shadow: none;
-        opacity: 1;
-    }
+/* Theme Switcher */
+.theme-switcher {
+    position: relative;
+}
 
-    /* Theme Switcher */
-    .theme-switcher {
-        position: relative;
-    }
+.theme-menu {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    margin-top: 0.5rem;
+    min-width: 200px;
+    z-index: 1000;
+    background-color: var(--bs-body-bg);
+    border: 1px solid var(--bs-border-color);
+    border-radius: 0.375rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
 
-    .theme-menu {
-        position: absolute;
-        right: 0;
-        top: 100%;
-        margin-top: 0.5rem;
-        min-width: 200px;
-        z-index: 1000;
-        background-color: var(--bs-body-bg);
-        border: 1px solid var(--bs-border-color);
-        border-radius: 0.375rem;
-        box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    }
+.theme-menu::before {
+    content: '';
+    position: absolute;
+    top: -0.5rem;
+    right: 1rem;
+    border-left: 0.5rem solid transparent;
+    border-right: 0.5rem solid transparent;
+    border-bottom: 0.5rem solid var(--bs-border-color);
+}
 
-    .theme-menu::before {
-        content: '';
-        position: absolute;
-        top: -0.5rem;
-        right: 1rem;
-        border-left: 0.5rem solid transparent;
-        border-right: 0.5rem solid transparent;
-        border-bottom: 0.5rem solid var(--bs-border-color);
-    }
+.theme-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease-in-out;
+    border-radius: 0.25rem;
+    margin: 0.125rem;
+}
 
-    .theme-option {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.5rem 1rem;
-        cursor: pointer;
-        transition: all var(--transition-speed) ease-in-out;
-        border-radius: 0.25rem;
-        margin: 0.125rem;
-    }
+.theme-option:hover {
+    background-color: var(--bs-tertiary-bg);
+}
 
-    .theme-option:hover {
-        background-color: var(--bs-tertiary-bg);
-    }
+.theme-option.active {
+    background-color: var(--bs-primary-bg-subtle);
+    color: var(--bs-primary);
+}
 
-    .theme-option.active {
-        background-color: var(--bs-primary-bg-subtle);
-        color: var(--bs-primary);
-    }
+.theme-check {
+    visibility: hidden;
+    width: 1rem;
+}
 
-    .theme-check {
-        visibility: hidden;
-        width: 1rem;
-    }
+.theme-option.active .theme-check {
+    visibility: visible;
+}
 
-    .theme-option.active .theme-check {
-        visibility: visible;
-    }
+/* Theme Transition Effects */
+* {
+    transition: background-color var(--transition-speed) ease-in-out,
+                border-color var(--transition-speed) ease-in-out,
+                color calc(var(--transition-speed) * 0.8) ease-in-out,
+                box-shadow var(--transition-speed) ease-in-out;
+}
 
-    /* Theme Transition Effects */
-    * {
-        transition: background-color var(--transition-speed) ease-in-out,
-                    border-color var(--transition-speed) ease-in-out,
-                    color calc(var(--transition-speed) * 0.8) ease-in-out,
-                    box-shadow var(--transition-speed) ease-in-out;
-    }
+/* Disable transitions temporarily */
+.no-transition * {
+    transition: none !important;
+}
 
-    /* Disable transitions temporarily */
-    .no-transition * {
-        transition: none !important;
-    }
+/* Footer Styling */
+footer {
+    background-color: var(--bs-tertiary-bg);
+    padding: 1rem 0;
+    position: relative;
+    z-index: 1010;
+}
 
-    /* Footer Styling */
-    footer {
-        background-color: var(--bs-tertiary-bg);
-        padding: 1rem 0;
-        position: relative;
-        z-index: 1010;
-    }
+footer a {
+    text-decoration: none;
+    margin: 0 0.5rem;
+}
 
-    footer a {
-        text-decoration: none;
-        margin: 0 0.5rem;
-    }
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 0.5rem;
+    height: 0.5rem;
+}
 
-    /* Scrollbar Styling */
-    ::-webkit-scrollbar {
-        width: 0.5rem;
-        height: 0.5rem;
-    }
+::-webkit-scrollbar-track {
+    background: var(--bs-tertiary-bg);
+}
 
-    ::-webkit-scrollbar-track {
-        background: var(--bs-tertiary-bg);
-    }
+::-webkit-scrollbar-thumb {
+    background: var(--bs-secondary-color);
+    border-radius: 0.25rem;
+}
 
-    ::-webkit-scrollbar-thumb {
-        background: var(--bs-secondary-color);
-        border-radius: 0.25rem;
-    }
+::-webkit-scrollbar-thumb:hover {
+    background: var(--bs-primary);
+}
 
-    ::-webkit-scrollbar-thumb:hover {
-        background: var(--bs-primary);
-    }
+/* Toast Notification for Theme Change */
+.theme-toast {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    z-index: 1050;
+    opacity: 0;
+    transform: translateY(1rem);
+    transition: all var(--transition-speed) ease-in-out;
+}
 
-    /* Toast Notification for Theme Change */
-    .theme-toast {
-        position: fixed;
-        bottom: 1rem;
-        right: 1rem;
-        z-index: 1050;
-        opacity: 0;
-        transform: translateY(1rem);
-        transition: all var(--transition-speed) ease-in-out;
-    }
+.theme-toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
 
-    .theme-toast.show {
-        opacity: 1;
-        transform: translateY(0);
-    }
+/* Utility Classes */
+.cursor-pointer {
+    cursor: pointer;
+}
 
-    /* Utility Classes */
-    .cursor-pointer {
-        cursor: pointer;
-    }
+.user-select-none {
+    user-select: none;
+}
 
-    .user-select-none {
-        user-select: none;
-    }
-</style>
