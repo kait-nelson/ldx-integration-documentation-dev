@@ -3,7 +3,6 @@
     --header-height: 60px;
     --footer-height: 60px;
     --sidebar-width: 280px;
-    --transition-speed: 0.3s;
 }
 
 /* Base Layout */
@@ -35,7 +34,6 @@ header {
     overflow-y: auto;
     background-color: var(--bs-secondary-bg);
     z-index: 1020;
-    transition: margin var(--transition-speed) ease-in-out;
 }
 
 @media (max-width: 768px) {
@@ -74,7 +72,6 @@ main .container {
     color: var(--bs-body-color);
     border-radius: 0.375rem;
     margin: 0.25rem 0.5rem;
-    transition: all var(--transition-speed) ease-in-out;
 }
 
 .nav-link:hover {
@@ -99,6 +96,13 @@ main .container {
     margin: 1rem 0;
 }
 
+.code-block .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 3rem;
+}
+
 .code-block pre {
     margin-bottom: 0;
     max-height: 500px;
@@ -114,20 +118,14 @@ main .container {
 
 .copy-button {
     position: absolute;
-    top: 0.5rem;
-    right: 0.5rem;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
     z-index: 1;
-    opacity: 0;
-    transition: opacity var(--transition-speed) ease-in-out;
-}
-
-.code-block:hover .copy-button {
-    opacity: 1;
 }
 
 .copy-button:focus {
     box-shadow: none;
-    opacity: 1;
 }
 
 /* Theme Switcher */
@@ -164,7 +162,6 @@ main .container {
     gap: 0.5rem;
     padding: 0.5rem 1rem;
     cursor: pointer;
-    transition: all var(--transition-speed) ease-in-out;
     border-radius: 0.25rem;
     margin: 0.125rem;
 }
@@ -206,19 +203,6 @@ footer a {
     margin: 0 0.5rem;
 }
 
-/* Theme Transition Effects */
-* {
-    transition: background-color var(--transition-speed) ease-in-out,
-                border-color var(--transition-speed) ease-in-out,
-                color calc(var(--transition-speed) * 0.8) ease-in-out,
-                box-shadow var(--transition-speed) ease-in-out;
-}
-
-/* Disable transitions temporarily */
-.no-transition * {
-    transition: none !important;
-}
-
 /* Scrollbar Styling */
 ::-webkit-scrollbar {
     width: 0.5rem;
@@ -244,14 +228,6 @@ footer a {
     bottom: calc(var(--footer-height) + 1rem);
     right: 1rem;
     z-index: 1050;
-    opacity: 0;
-    transform: translateY(1rem);
-    transition: all var(--transition-speed) ease-in-out;
-}
-
-.theme-toast.show {
-    opacity: 1;
-    transform: translateY(0);
 }
 
 /* Utility Classes */
